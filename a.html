@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PESE Session Portfolio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tsparticles@2.12.0/tsparticles.bundle.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0F172A; --bg-gradient-start: #1E293B; --bg-gradient-end: #0F172A;
+            --bg-card: #1E293B; --bg-header: #0f172aBF; --bg-header-mobile: #1E293B;
+            --bg-hover: #334155; --text-primary: #E2E8F0; --text-secondary: #94A3B8;
+            --text-headings: #FFFFFF; --text-accent: #06B6D4; --accent-purple: #A78BFA;
+            --border-color: #334155; --glow-color: rgba(124, 58, 237, 0.2);
+            --glow-color-hover: rgba(124, 58, 237, 0.4); --shadow-color: rgba(0, 0, 0, 0.1);
+            --modal-bg: rgba(10, 20, 35, 0.8); --modal-content-bg: #1E293B;
+            --timeline-spine-color: #334155; --typewriter-border: white;
+        }
+        html.light {
+            --bg-color: #F1F5F9; --bg-gradient-start: #FFFFFF; --bg-gradient-end: #F1F5F9;
+            --bg-card: #FFFFFF; --bg-header: rgba(255, 255, 255, 0.8); --bg-header-mobile: #FFFFFF;
+            --bg-hover: #E2E8F0; --text-primary: #1E293B; --text-secondary: #475569;
+            --text-headings: #0F172A; --text-accent: #0d9488; --accent-purple: #8B5CF6;
+            --border-color: #E2E8F0; --shadow-color: rgba(0, 0, 0, 0.07);
+            --modal-bg: rgba(226, 232, 240, 0.8); --modal-content-bg: #F8FAFC;
+            --timeline-spine-color: #CBD5E1; --typewriter-border: #1E293B;
+        }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); background: linear-gradient(170deg, var(--bg-gradient-start), var(--bg-gradient-end) 30%); color: var(--text-primary); transition: background-color 0.3s ease, color 0.3s ease; }
+        #particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: -1; }
+        #cursor-glow { display: none; }
+        @media (min-width: 1024px) { #cursor-glow { display: block; position: fixed; width: 40px; height: 40px; border-radius: 50%; background: var(--text-accent); filter: blur(25px); z-index: 9999; pointer-events: none; transform: translate(-50%, -50%); opacity: 0; transition: opacity 0.3s ease-in-out, transform 0.1s ease-out; } body:hover #cursor-glow { opacity: 0.3; } html.light #cursor-glow { opacity: 0.2; background: var(--accent-purple); } }
+        header { background-color: var(--bg-header); border-bottom: 1px solid var(--border-color); transition: background-color 0.3s, border-color 0.3s; }
+        html.light header { box-shadow: 0 2px 10px var(--shadow-color); }
+        #portfolioName, h1, h2, h3, h4 { color: var(--text-headings); }
+        .text-slate-400 { color: var(--text-secondary); }
+        
+        /* Light Mode Button Overrides */
+        html.light .bg-slate-700, html.light .bg-slate-800 { background-color: #F1F5F9; color: var(--text-primary); border: 1px solid var(--border-color); } 
+        html.light .bg-slate-700:hover, html.light .bg-slate-800:hover { background-color: var(--bg-hover); }
+        html.light .bg-blue-600 { background-color: #EFF6FF; color: #1D4ED8; border: 1px solid #DBEAFE;}
+        html.light .bg-blue-600:hover { background-color: #DBEAFE; }
+        html.light .bg-teal-500 { background-color: #F0FDFA; color: #0F766E; border: 1px solid #CCFBF1;}
+        html.light .bg-teal-500:hover { background-color: #CCFBF1; }
+        html.light .bg-purple-600 { background-color: #F5F3FF; color: #7C3AED; border: 1px solid #EDE9FE;}
+        html.light .bg-purple-600:hover { background-color: #EDE9FE; }
+        
+        .text-teal-300 { color: var(--text-accent); }
+        #nav-links { transition: all 0.3s ease-in-out; }
+        .nav-mobile-active { display: flex !important; flex-direction: column; align-items: stretch; position: absolute; top: 100%; left: 0; right: 0; background-color: var(--bg-header-mobile); padding: 1rem 1.5rem 1.5rem; border-bottom: 1px solid var(--border-color); box-shadow: 0 10px 15px rgba(0,0,0,0.1); gap: 0.75rem; }
+        .gradient-text { background: linear-gradient(90deg, var(--accent-purple), #38BDF8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent; }
+        .card { background-color: var(--bg-card); border: 1px solid var(--border-color); box-shadow: 0 10px 20px var(--glow-color), 0 0 0 1px var(--border-color); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 15px 30px var(--glow-color-hover), 0 0 0 1px var(--border-color); }
+        html.light .card { box-shadow: 0 4px 6px -1px var(--shadow-color), 0 2px 4px -2px var(--shadow-color); }
+        html.light .card:hover { box-shadow: 0 10px 15px -3px var(--shadow-color), 0 4px 6px -2px var(--shadow-color); }
+        .btn-hover-effect { transition: all 0.3s ease-in-out; }
+        .btn-hover-effect:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.2);}
+        .project-card { transition: opacity 0.4s ease, transform 0.4s ease; }
+        .project-card.hidden { opacity: 0; transform: scale(0.95); pointer-events: none; height: 0; margin-bottom: 0 !important; overflow: hidden; }
+        #weekly-timeline { position: relative; }
+        .timeline-spine { position: absolute; left: 50%; top: 40px; bottom: 40px; width: 2px; background: var(--timeline-spine-color); transform: translateX(-50%); }
+        @media (max-width: 767px) { .timeline-spine { display: none; } }
+        .animate-on-scroll { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+        .animate-on-scroll.is-visible { opacity: 1; transform: translateY(0); }
+        .modal { display: none; position: fixed; z-index: 100; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: var(--modal-bg); backdrop-filter: blur(8px); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+        .modal.is-open { display: flex; opacity: 1; }
+        .modal-content { background-color: var(--modal-content-bg); margin: auto; padding: 20px; md:padding: 30px; border-radius: 12px; width: 90%; max-width: 800px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; transform: scale(0.95); transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease; }
+        .modal.is-open .modal-content { transform: scale(1); }
+        .close-button { color: var(--text-secondary); position: absolute; top: 10px; right: 20px; font-size: 35px; font-weight: bold; transition: 0.3s; }
+        .close-button:hover, .close-button:focus { color: #F87171; text-decoration: none; cursor: pointer; }
+        #pdf-preview-container { height: 70vh; background-color: var(--bg-hover); border-radius: 8px; border: 1px solid var(--border-color); }
+        .typewriter-text { display: inline-block; overflow: hidden; white-space: nowrap; border-right: 0.15em solid var(--typewriter-border); animation: blink-caret .75s step-end infinite; }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: currentColor } }
+    </style>
+</head>
+<body class="antialiased">
+    <div id="particles-js"></div>
+    <div id="cursor-glow"></div>
+
+    <header class="backdrop-blur-sm sticky top-0 z-50">
+        <nav class="container mx-auto px-4 sm:px-6 py-3 flex justify-between items-center relative">
+            <div class="text-xl md:text-2xl font-bold tracking-wider"> <a href="#" id="portfolioName"></a> </div>
+            <div class="flex items-center">
+                <div class="hidden lg:flex items-center space-x-3 mr-4">
+                    <a href="#about" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg btn-hover-effect">About</a>
+                    <a href="#skills" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg btn-hover-effect">Skills</a>
+                    <a href="#sessions" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg btn-hover-effect">Sessions</a>
+                </div>
+                <div class="flex items-center space-x-2 md:space-x-3">
+                    <button data-modal-target="resumeModal" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg btn-hover-effect">RESUME</button>
+                    <button data-modal-target="articlesModal" class="hidden sm:block bg-slate-700 hover:bg-slate-600 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg btn-hover-effect">ARTICLES</button>
+                    <button data-modal-target="contactModal" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg text-sm font-semibold shadow-lg btn-hover-effect">CONTACT</button>
+                    <button id="theme-toggle-btn-desktop" aria-label="Toggle theme" class="hidden md:flex p-2 rounded-lg bg-slate-700 hover:bg-slate-600 text-white btn-hover-effect justify-center items-center">
+                        <svg id="moon-icon-desktop" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                        <svg id="sun-icon-desktop" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                    </button>
+                    <button id="hamburger-btn" class="lg:hidden p-2 rounded-lg bg-slate-700 text-white">
+                        <svg id="menu-open-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16m-7 6h7"></path></svg>
+                        <svg id="menu-close-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"></path></svg>
+                    </button>
+                </div>
+            </div>
+             <div id="nav-links" class="hidden">
+                 <a href="#about" class="block text-secondary hover:text-primary transition-colors py-2">About</a>
+                 <a href="#skills" class="block text-secondary hover:text-primary transition-colors py-2">Skills</a>
+                 <a href="#sessions" class="block text-secondary hover:text-primary transition-colors py-2">Sessions</a>
+                 <div class="border-t border-border-color my-2"></div>
+                 <button data-modal-target="articlesModal" class="block w-full text-center bg-slate-700 text-white px-5 py-2.5 rounded-lg text-sm font-semibold">ARTICLES</button>
+                 <button id="theme-toggle-btn-mobile" aria-label="Toggle theme" class="w-full p-2.5 mt-2 rounded-lg bg-slate-700 text-white flex justify-center items-center">
+                    <svg id="moon-icon-mobile" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    <svg id="sun-icon-mobile" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                 </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container mx-auto px-4 sm:px-6 pt-8 pb-12">
+        
+        <section class="text-center my-12 md:my-16 animate-on-scroll">
+             <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 gradient-text">My PESE Webinar Journey</h1>
+             <p class="text-base md:text-lg text-slate-400 max-w-3xl mx-auto leading-relaxed"> A log of the key concepts and technologies covered in each weekly session of the Program for Engineering Student Excellence (PESE).</p>
+        </section>
+
+        <section id="about" class="my-24 md:my-32 animate-on-scroll">
+            <div class="card p-8 md:p-12">
+                <div class="grid md:grid-cols-5 gap-10 md:gap-16 items-center">
+                <div class="md:col-span-2">
+    <img class="w-46 h-62 rounded-full border-4 border-purple-500/50 shadow-xl mx-auto" src="Profile1.jpg" alt="Aman Bhardwaj" onerror="this.onerror=null;this.src='https://placehold.co/256x256/1f2937/d1d5db?text=Error';">
+</div>
+                    <div class="md:col-span-3 text-center md:text-left">
+                        <h2 class="text-3xl lg:text-4xl font-bold mb-4">About Me</h2>
+                        <p class="text-slate-400 text-lg leading-relaxed mb-4"> I am a passionate programmer and problem-solver with a keen interest in backend development and system architecture. My journey in technology is driven by a desire to build things that are not only functional but also elegant and efficient. </p>
+                        <p class="text-slate-400 text-lg leading-relaxed"> I thrive on challenges, from architecting a scalable API to optimizing a database query for peak performance. This portfolio documents my process and my dedication to crafting high-quality software. </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="my-24 md:my-32 animate-on-scroll">
+            <div class="card p-8 md:p-12">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl lg:text-4xl font-bold">Technologies & Skills</h2>
+                    <p class="text-lg text-slate-400 mt-2">The core tech stack covered in the PESE sessions.</p>
+                </div>
+                <div id="skills-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 text-center"> </div>
+            </div>
+        </section>
+
+        <section id="sessions" class="my-24 md:my-32">
+            <div class="text-center mb-12 animate-on-scroll">
+                <h2 class="text-3xl lg:text-4xl font-bold">PESE Session Log</h2>
+                <p class="text-lg text-slate-400 mt-2">A week-by-week log of my webinar journey.</p>
+            </div>
+            <div id="weekly-timeline" class="space-y-8 md:space-y-12">
+                <div class="timeline-spine"></div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="mt-20 border-t border-border-color bg-bg-card/50">
+        <div class="container mx-auto px-6 py-8 text-center text-secondary">
+            <p>© <span id="current-year"></span> Aman Bhardwaj. All Rights Reserved.</p>
+            <p class="text-sm mt-2">Built with Gemini's assistance.</p>
+        </div>
+    </footer>
+
+    <button id="scrollToTopBtn" title="Go to top" class="hidden fixed bottom-5 right-5 z-50 bg-teal-500 text-white p-3 md:p-4 rounded-full shadow-lg transition-all duration-300 hover:bg-teal-600 hover:scale-110">↑</button>
+
+    <!-- ====== All Modals ====== -->
+    <div id="resumeModal" class="modal"><div class="modal-content"><span class="close-button" data-close-button>×</span>
+        <h3 class="text-2xl md:text-3xl font-bold mb-6">My Resume</h3>
+        <div class="flex flex-col sm:flex-row gap-4 mb-6">
+            <a id="download-resume-btn" href="#" download class="w-full sm:w-auto flex-1 bg-teal-500 text-white text-center px-5 py-3 rounded-lg font-semibold btn-hover-effect">Download PDF</a>
+            <button id="view-resume-btn" class="w-full sm:w-auto flex-1 bg-slate-800 text-white px-5 py-3 rounded-lg font-semibold btn-hover-effect">Live Preview</button>
+        </div>
+        <div id="pdf-preview-container" class="hidden"><div class="w-full h-full flex items-center justify-center text-secondary">Loading Preview...</div></div>
+    </div></div>
+    <div id="projectModal" class="modal"><div class="modal-content"><span class="close-button" data-close-button>×</span><h3 id="modalTitle" class="text-2xl md:text-3xl font-bold mb-4"></h3><p id="modalDescription" class="text-base md:text-lg text-secondary mb-6"></p><div id="modalVideo" class="aspect-w-16 aspect-h-9 rounded-xl overflow-hidden shadow-2xl mb-6"></div></div></div>
+    <div id="articlesModal" class="modal"><div class="modal-content"><span class="close-button" data-close-button>×</span><h3 class="text-2xl md:text-3xl font-bold mb-6">My Articles</h3><div id="articlesContent" class="space-y-4"></div></div></div>
+    <div id="articleTextPreviewModal" class="modal"><div class="modal-content"><span class="close-button" data-close-button>×</span><h3 id="articleTextModalTitle" class="text-2xl md:text-3xl font-bold mb-4">Article Preview</h3><div id="articleTextContent" class="prose max-w-none"></div></div></div>
+    <div id="contactModal" class="modal"><div class="modal-content"><span class="close-button" data-close-button>×</span><h3 class="text-2xl md:text-3xl font-bold mb-6">Contact Me</h3><div class="space-y-6"><div><h4 class="text-sm font-semibold text-secondary uppercase tracking-wider">Email Address</h4><a href="mailto:aman71204@hotmail.com" class="text-lg md:text-xl text-accent hover:underline">aman71204@hotmail.com</a></div><div><h4 class="text-sm font-semibold text-secondary uppercase tracking-wider">Phone</h4><a href="tel:+919368627368" class="text-lg md:text-xl text-primary hover:underline">+91 93686 27368 </a></div><div><h4 class="text-sm font-semibold text-secondary uppercase tracking-wider mb-3">Find me on</h4><div class="flex space-x-4"><a href="#" target="_blank" class="p-3 bg-slate-700 rounded-full hover:bg-teal-500 transition-colors duration-300" title="GitHub"><svg viewBox="0 0 24 24" class="w-6 h-6 text-white" fill="currentColor"><path d="M12 2C6.477 2 2 6.477 2 12c0 4.418 2.865 8.168 6.839 9.492.5.092.682-.217.682-.482 0-.237-.009-.868-.014-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.031-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.378.203 2.398.1 2.65.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0022 12c0-5.523-4.477-10-10-10z"/></svg></a><a href="#" target="_blank" class="p-3 bg-slate-700 rounded-full hover:bg-teal-500 transition-colors" title="LinkedIn"><svg viewBox="0 0 24 24" class="w-6 h-6 text-white" fill="currentColor"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a><a href="#" target="_blank" class="p-3 bg-slate-700 rounded-full hover:bg-teal-500" title="Twitter/X"><svg viewBox="0 0 24 24" class="w-6 h-6 text-white" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a></div></div></div></div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const resumePath = 'path/to/your/resume.pdf'; // <-- IMPORTANT: UPDATE THIS PATH
+
+            const skillsData = [ { name: 'JavaScript', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M13 1.07V9h7c0-4.08-3.05-7.44-7-7.93zM4 15c0 4.42 3.58 8 8 8s8-3.58 8-8v-4H4v4zm7-13.93C7.05 1.56 4 4.92 4 9h7V1.07z"/></svg>' }, { name: 'React', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-5.5-2.5l1.41-1.41L12 16.17l4.09-4.09L17.5 13.5 12 19 6.5 13.5z"/></svg>' }, { name: 'Node.js', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>' }, { name: 'Tailwind CSS', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>' }, { name: 'HTML5', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5-10-5-10 5z"/></svg>' }, { name: 'CSS3', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3L2 7.44 12 12 22 7.44 12 3zm0 13.06L4.08 11.25 12 16l7.92-4.75L12 16.06zM12 21l-7.92-4.75L12 21l7.92-4.75L12 21z"/></svg>' }, { name: 'PostgreSQL', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>' }, { name: 'Git & GitHub', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.59 12l-3.59-3.59L18.41 7 23 11.59 18.41 16.2 17 14.79 20.59 11.21 17 7.62 18.41 6.21 23 11.21 18.41 16.2zM3.41 12l3.59 3.59L5.59 17 1 12.41 5.59 7.8 7 9.21 3.41 12.79 7 16.38 5.59 17.79 1 12.79 5.59 7.8z"/></svg>' }, { name: 'API Design', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>' }, { name: 'UI/UX', icon: '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z"/></svg>' }, ];
+            const weeklyData = [ { week: 1, title: "Session 1: Foundational Concepts", description: "This session covered the project lifecycle, established our development environments with Git, and outlined key milestones for the program.", videoId: "qkxuFKqJXWY" }, { week: 2, title: "Session 2: UI/UX Design Principles", description: "We dove into user interface and user experience design in Figma, creating wireframes and interactive prototypes to visualize the application.", videoId: "bMJo1JqE180" }, { week: 3, title: "Session 3: Modern Frontend Structure", description: "This session focused on translating designs into code, building a responsive frontend structure with HTML5 and the utility-first framework, Tailwind CSS.", videoId: "X_K10b2R4wY" }, { week: 4, title: "Session 4: Backend API Fundamentals", description: "We began server-side development by designing a database schema and implementing core API endpoints using Node.js, focusing on RESTful principles.", videoId: "tV1d2Xo5p-Y" }, { week: 5, title: "Session 5: Database Integration", description: "This session connected the backend API to a PostgreSQL database. We implemented CRUD operations and ensured data integrity using SQL.", videoId: "r2C_b-134tA" }, { week: 6, title: "Session 6: Full-Stack Connectivity", description: "A major milestone: we fetched and displayed real data from the backend on the frontend using asynchronous JavaScript and Fetch API.", videoId: "D_mH1u6h3kM" }, { week: 7, title: "Session 7: Intro to React", description: "We built out the primary UI features using React for a dynamic and component-based user interface, managing state and props.", videoId: "2aYwXb1_56Q" }, { week: 8, title: "Session 8: User Authentication", description: "This session focused on security. We implemented user registration and login with JWTs and added authorization middleware to protect routes.", videoId: "EpM94_mJqUo" }, { week: 9, title: "Session 9: Advanced UI/UX", description: "We took a step back to review the user flow and add micro-interactions and animations to create a polished and engaging user journey.", videoId: "J2Bv6GvQ2M0" }, { week: 10, title: "Session 10: State Management", description: "This session explored advanced state management techniques in React, enhancing application functionality and data flow.", videoId: "D-yq41u1fX0" }, { week: 11, title: "Session 11: Unit & Integration Testing", description: "We began a formal QA process, writing unit and integration tests for our components and API endpoints using Jest to ensure reliability.", videoId: "W4o3R_g29pQ" }, { week: 12, title: "Session 12: Performance Optimization", description: "This session focused on squashing bugs identified during QA and optimizing code and database queries to improve application performance.", videoId: "N1oA9rW_RkQ" }, { week: 13, title: "Session 13: End-to-End Testing", description: "A second round of testing was conducted with end-to-end tests using Cypress to simulate user interactions and catch regressions.", videoId: "l8jG90f7wR4" }, { week: 14, title: "Session 14: CI/CD & Deployment", description: "We prepared the application for launch by setting up CI/CD deployment pipelines (e.g., GitHub Actions) and configuring environment variables.", videoId: "X_C10b2R4wY" }, { week: 15, title: "Session 15: Final Review & Monitoring", description: "The final session focused on deploying to production, monitoring its performance, and gathering feedback. A full-circle review of the PESE journey.", videoId: "L_C10b2R4wY" } ].map(item => ({...item, shortDescription: item.description.length > 150 ? item.description.substring(0, 150) + '...' : item.description }));
+            const articlesData = [{ title: "Kautilya's Arthashastra", description: "An analysis of ancient statecraft and its modern relevance.", textUrl: "https://raw.githubusercontent.com/FlickshotFire/portfolio/main/kAutilya.txt", pdfUrl: "KAutaliya.pdf" }, { title: "The Art of Scalable CSS", description: "Strategies for writing maintainable and large-scale CSS.", pdfUrl: "#" }];
+            
+            // --- RESUME MODAL LOGIC ---
+            document.getElementById('download-resume-btn').href = resumePath;
+            const viewResumeBtn = document.getElementById('view-resume-btn');
+            const pdfPreviewContainer = document.getElementById('pdf-preview-container');
+            viewResumeBtn.addEventListener('click', () => {
+                pdfPreviewContainer.classList.remove('hidden');
+                pdfPreviewContainer.innerHTML = `<embed src="${resumePath}" type="application/pdf" width="100%" height="100%" />`;
+            });
+
+            // Close resume preview when modal is closed
+            const resumeModal = document.getElementById('resumeModal');
+            const closeResumeButton = resumeModal.querySelector('[data-close-button]');
+            const closeResumeAction = () => {
+                pdfPreviewContainer.classList.add('hidden');
+                pdfPreviewContainer.innerHTML = '<div class="w-full h-full flex items-center justify-center text-secondary">Loading Preview...</div>';
+            }
+            closeResumeButton.addEventListener('click', closeResumeAction);
+            resumeModal.addEventListener('click', (e) => {
+                if(e.target === resumeModal) closeResumeAction();
+            });
+
+            // --- All other functions from previous version ---
+            const hamburgerBtn = document.getElementById('hamburger-btn'); const navLinks = document.getElementById('nav-links'); const menuOpenIcon = document.getElementById('menu-open-icon'); const menuCloseIcon = document.getElementById('menu-close-icon'); hamburgerBtn.addEventListener('click', () => { navLinks.classList.toggle('hidden'); navLinks.classList.toggle('nav-mobile-active'); menuOpenIcon.classList.toggle('hidden'); menuCloseIcon.classList.toggle('hidden'); }); navLinks.addEventListener('click', (e) => { if (e.target.tagName === 'A' || e.target.closest('button')) { navLinks.classList.add('hidden'); navLinks.classList.remove('nav-mobile-active'); menuOpenIcon.classList.remove('hidden'); menuCloseIcon.classList.add('hidden'); } });
+            const themeTogglers = [document.getElementById('theme-toggle-btn-desktop'), document.getElementById('theme-toggle-btn-mobile')];
+            const applyTheme = (theme) => {
+                if (theme === 'light') { document.documentElement.classList.add('light'); } 
+                else { document.documentElement.classList.remove('light'); }
+                themeTogglers.forEach(toggler => { if(!toggler) return; const sun = toggler.querySelector('[id^="sun-icon"]'); const moon = toggler.querySelector('[id^="moon-icon"]'); if(theme === 'light') { sun.classList.remove('hidden'); moon.classList.add('hidden'); } else { sun.classList.add('hidden'); moon.classList.remove('hidden'); } });
+                if (typeof initParticles === 'function') initParticles();
+            };
+            themeTogglers.forEach(toggler => { if(toggler) toggler.addEventListener('click', () => { const newTheme = document.documentElement.classList.contains('light') ? 'dark' : 'light'; localStorage.setItem('theme', newTheme); applyTheme(newTheme); })});
+            const generateSkills = () => { const grid = document.getElementById('skills-grid'); if(!grid) return; grid.innerHTML = ''; skillsData.forEach(skill => { const skillHTML = `<div class="card p-4 flex flex-col items-center justify-center gap-3 hover:!border-accent-purple"><div class="w-10 h-10 text-accent-purple">${skill.icon}</div><h4 class="font-semibold text-primary">${skill.name}</h4></div>`; grid.insertAdjacentHTML('beforeend', skillHTML); }); };
+            const generateTimeline = () => { const timelineContainer = document.getElementById('weekly-timeline'); if (!timelineContainer) return; timelineContainer.innerHTML = '<div class="timeline-spine"></div>'; weeklyData.forEach((week, index) => { const isRight = (index + 1) % 2 === 0; const cardHTML = `<div class="project-card relative animate-on-scroll ${isRight ? 'md:ml-auto' : ''} md:w-[calc(50%-2rem)]"><div class="card p-6 md:p-8 rounded-xl"><h3 class="text-2xl font-bold !mb-1 md:text-3xl"><span class="text-sm font-medium text-purple-400 tracking-widest">WEEK ${week.week}</span><br/>${week.title}</h3><p class="mt-3 text-base leading-relaxed text-secondary">${week.shortDescription}</p><button class="mt-5 bg-teal-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-teal-700 transition duration-300 btn-hover-effect view-details-btn" data-week="${week.week}">View Details</button></div></div>`; timelineContainer.insertAdjacentHTML('beforeend', cardHTML); }); };
+            const initParticles = () => { const isLight = document.documentElement.classList.contains('light'); const isMobile = window.innerWidth < 768; const particleColor = isLight ? ["#0d9488", "#8B5CF6"] : ["#06B6D4", "#A78BFA"]; const linkColor = isLight ? "#CBD5E1" : "#334155"; const particleCount = isMobile ? 30 : 60; tsParticles.load("particles-js", { fpsLimit: 60, interactivity: { events: { onHover: { enable: !isMobile, mode: "repulse" }, onClick: { enable: true, mode: "push" }, resize: true, }, modes: { push: { quantity: 2 }, repulse: { distance: 150, duration: 0.4 }, }, }, particles: { color: { value: particleColor }, links: { color: linkColor, distance: 150, enable: true, opacity: 0.4, width: 1, }, collisions: { enable: false }, move: { direction: "none", enable: true, outModes: { default: "bounce" }, random: true, speed: 1, straight: false, }, number: { density: { enable: true, area: 800 }, value: particleCount, }, opacity: { value: 0.5 }, shape: { type: "circle" }, size: { value: { min: 1, max: 3 } }, }, detectRetina: true, }); };
+            const generateArticles = () => { const container = document.getElementById('articlesContent'); if(!container) return; container.innerHTML = articlesData.map(article => `<div class="card p-4 rounded-lg transition-all duration-300 hover:border-teal-400/50"><h4 class="text-xl font-semibold mb-1 text-headings">${article.title}</h4><p class="text-secondary mb-3">${article.description}</p><div class="flex items-center space-x-4 text-sm">${article.textUrl ? `<a href="${article.textUrl}" data-article-url="${article.textUrl}" data-article-title="${article.title}" class="text-accent font-semibold hover:underline cursor-pointer">Live Preview</a>` : ''}${article.textUrl && article.pdfUrl ? `<span class="text-secondary">|</span>` : ''}${article.pdfUrl ? `<a href="${article.pdfUrl}" target="_blank" class="text-accent font-semibold hover:underline">Open PDF</a>` : ''}</div></div>`).join(''); };
+            const openModal = (modal) => modal.classList.add('is-open'); const closeModal = (modal) => modal.classList.remove('is-open'); document.body.addEventListener('click', (e) => { const modalTrigger = e.target.closest('[data-modal-target]'); if (modalTrigger) { const modal = document.getElementById(modalTrigger.getAttribute('data-modal-target')); if (modal) openModal(modal); } if (e.target.matches('[data-close-button]') || e.target.matches('.modal')) { const modal = e.target.closest('.modal'); if (modal) closeModal(modal); } const articlePreviewTrigger = e.target.closest('[data-article-url]'); if (articlePreviewTrigger) { e.preventDefault(); const url = articlePreviewTrigger.dataset.articleUrl; const title = articlePreviewTrigger.dataset.articleTitle; closeModal(articlePreviewTrigger.closest('.modal')); openModal(document.getElementById('articleTextPreviewModal')); document.getElementById('articleTextModalTitle').textContent = title; const contentEl = document.getElementById('articleTextContent'); contentEl.textContent = "Loading..."; fetch(url).then(response => { if (!response.ok) throw new Error('Network response not ok'); return response.text(); }).then(textData => { contentEl.textContent = textData; }).catch(error => { console.error("Fetch error:", error); contentEl.textContent = "Failed to load content."; }); } });
+            document.getElementById('weekly-timeline').addEventListener('click', (e) => { const viewBtn = e.target.closest('.view-details-btn'); if (viewBtn) { const project = weeklyData.find(item => item.week === parseInt(viewBtn.dataset.week)); if (project) { const modal = document.getElementById('projectModal'); modal.querySelector('#modalTitle').textContent = `Week ${project.week}: ${project.title}`; modal.querySelector('#modalDescription').textContent = project.description; modal.querySelector('#modalVideo').innerHTML = `<iframe src="https://www.youtube.com/embed/${project.videoId}?autoplay=1&mute=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen class="w-full h-full absolute top-0 left-0"></iframe>`; openModal(modal); } } });
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn'); const scrollObserver = new IntersectionObserver((entries) => { entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('is-visible'); } }); }, { threshold: 0.1 }); window.onscroll = () => { scrollToTopBtn.classList.toggle('hidden', !(document.body.scrollTop > 300 || document.documentElement.scrollTop > 300)); }; scrollToTopBtn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+            const portfolioNameElement = document.getElementById('portfolioName'); const portfolioNames = ["AMAN BHARDWAJ", "PESE SESSIONS", "WEB DEVELOPMENT"]; let nameIndex = 0, charIndex = 0, isDeleting = false; const typeWriter = () => { const currentName = portfolioNames[nameIndex]; let typeSpeed = isDeleting ? 75 : 150; portfolioNameElement.textContent = currentName.substring(0, charIndex) + (isDeleting ? '' : '|'); if (!isDeleting && charIndex < currentName.length) { charIndex++; } else if (isDeleting && charIndex > 0) { charIndex--; } else { isDeleting = !isDeleting; if (!isDeleting) { nameIndex = (nameIndex + 1) % portfolioNames.length; } typeSpeed = isDeleting ? 2000 : 500; } setTimeout(typeWriter, typeSpeed); }; if(portfolioNameElement) portfolioNameElement.classList.add('typewriter-text'); typeWriter();
+            
+            const init = () => { const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); applyTheme(savedTheme); generateSkills(); generateTimeline(); generateArticles(); document.querySelectorAll('.animate-on-scroll').forEach(el => scrollObserver.observe(el)); document.getElementById('current-year').textContent = new Date().getFullYear(); };
+            init();
+        });
+    </script>
+</body>
+</html>
